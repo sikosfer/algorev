@@ -8,7 +8,7 @@ const gorevler = [
     "10 tane zıplama hareketi yap.",
     "10 saniye boyunca sürekli Twerk yap.",
     "Birkaç tane esneme hareketleri yap.",
-    "Bugün seni gülümseten 3 fotoğrafla.",
+    "Bugün seni gülümseten 3 şeyi fotoğrafla.",
     "En sevdiğin şarkıyı dinlerken dans et.",
     "Amuda kalk.",
     "15 saniye prank yap.",
@@ -146,3 +146,4 @@ function rastgeleGorevSec() {
 
 // Butona tıklandığında rastgeleGorevSec fonksiyonunu çalıştır
 gorevButonu.addEventListener('click', rastgeleGorevSec);
+
