@@ -117,33 +117,98 @@ const gorevler = [
 ];
 
 
-// HTML elemanlarını seçiyoruz
+// HTML elementlerini seçiyoruz
 const gorevAlani = document.getElementById('gorev-alani');
 const gorevButonu = document.getElementById('gorev-butonu');
 
-// Butona tıklandığında çalışacak fonksiyon
-function rastgeleGorevSec() {
-    // *** 1. Önce eski animasyon sınıfını kaldırıyoruz (varsa) ***
-    gorevAlani.classList.remove('gorev-geldi');
+// GÜNLÜK SINIRLANDIRMA AYARLARI
+const GUNLUK_LIMIT = 3;
+const BASLANGIC_MESAJI = "Butona basarak bir görev al!";
+const LIMIT_ASIM_MESAJI = "Günlük görev limitin doldu! Yarın tekrar dene. 😔";
 
-    // 1. Rastgele bir indeks numarası seç
-    const rastgeleIndex = Math.floor(Math.random() * gorevler.length);
+// Sayımı ve son giriş tarihini localStorage'dan kontrol etme fonksiyonu
+function sayimiKontrolEt() {
+    const bugununTarihi = new Date().toDateString(); // "Fri Dec 05 2025" gibi bir format
     
-    // 2. Seçilen indeksteki görevi al
-    const secilenGorev = gorevler[rastgeleIndex];
+    // localStorage'dan kayıtlı veriyi al
+    const kayitliSayac = localStorage.getItem('gorevSayac');
+    const kayitliTarih = localStorage.getItem('sonTarih');
     
-    // 3. Görevi ekrana yazdır
-    gorevAlani.textContent = secilenGorev;
-
-    // *** 4. Yeni animasyon sınıfını ekle (Bu animasyonu tetikler) ***
-    // set timeout, animasyonun çalışması için bir saniye sonra eklememizi sağlar
-    setTimeout(() => {
-        gorevAlani.classList.add('gorev-geldi');
-    }, 10); // Çok kısa bir gecikme, tarayıcının değişikliği algılaması için yeterli
+    let sayac = 0;
+    
+    // Eğer kayıtlı tarih bugün değilse, sayacı sıfırla ve tarihi güncelle
+    if (kayitliTarih !== bugununTarihi) {
+        sayac = 0;
+        localStorage.setItem('sonTarih', bugununTarihi);
+        localStorage.setItem('gorevSayac', 0);
+    } else {
+        // Tarih bugünse, kayıtlı sayacı kullan
+        sayac = parseInt(kayitliSayac, 10) || 0;
+    }
+    
+    return sayac;
 }
 
-// ... geri kalan kod (gorevButonu.addEventListener kısmı) aynı kalacak.
+// Butonun durumunu (aktif/pasif) güncelleyen fonksiyon
+function butonuGuncelle(sayac) {
+    if (sayac >= GUNLUK_LIMIT) {
+        goreButonu.disabled = true; // Butonu pasif yap
+        gorevButonu.textContent = `Limit Doldu (${GUNLUK_LIMIT}/${GUNLUK_LIMIT})`;
+        if (gorevAlani.textContent === BASLANGIC_MESAJI) {
+            gorevAlani.textContent = LIMIT_ASIM_MESAJI;
+        }
+    } else {
+        gorevButonu.disabled = false; // Butonu aktif yap
+        gorevButonu.textContent = `Yeni Görev Al (${sayac}/${GUNLUK_LIMIT})`;
+    }
+}
 
-// Butona tıklandığında rastgeleGorevSec fonksiyonunu çalıştır
+// Butona tıklandığında çalışacak ana fonksiyon
+function rastgeleGorevSec() {
+    let sayac = sayimiKontrolEt();
+
+    if (sayac >= GUNLUK_LIMIT) {
+        // Limit aşıldıysa sadece mesajı göster ve butonu güncelle
+        gorevAlani.textContent = LIMIT_ASIM_MESAJI;
+        butonuGuncelle(sayac);
+        return; // Fonksiyondan çık
+    }
+    
+    // *** 1. Önceki animasyonu kaldır ***
+    gorevAlani.classList.remove('gorev-geldi');
+
+    // *** 2. Sayacı Artır ve Kaydet ***
+    sayac++;
+    localStorage.setItem('gorevSayac', sayac);
+
+    // *** 3. Rastgele Görev Seç ***
+    const rastgeleIndex = Math.floor(Math.random() * gorevler.length);
+    const secilenGorev = gorevler[rastgeleIndex];
+    
+    // *** 4. Görevi Ekrana Yazdır ***
+    gorevAlani.textContent = secilenGorev;
+    
+    // *** 5. Butonu ve Animasyonu Güncelle ***
+    butonuGuncelle(sayac);
+
+    setTimeout(() => {
+        gorevAlani.classList.add('gorev-geldi');
+    }, 10);
+}
+
+// Sayfa yüklendiğinde butonu ve mesajı kontrol et
+function sayfaYukle() {
+    const sayac = sayimiKontrolEt();
+    butonuGuncelle(sayac);
+    
+    // Başlangıç mesajı göster (limit aşılmamışsa)
+    if (sayac < GUNLUK_LIMIT) {
+         gorevAlani.textContent = BASLANGIC_MESAJI;
+    }
+}
+
+// Buton dinleyicisini ayarla
 gorevButonu.addEventListener('click', rastgeleGorevSec);
 
+// Sayfa yüklendiğinde çalıştır
+sayfaYukle();
