@@ -1,0 +1,75 @@
+/* KOYU TEMA VE ANİMASYON İÇİN TEMİZ KOD */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #282c34; /* Koyu arka plan */
+    color: #f5f5f5;
+}
+
+.container {
+    background-color: #3d4451; /* Daha koyu kart */
+    padding: 45px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+h1 {
+    color: #61dafb; /* Başlık için canlı renk */
+    margin-bottom: 25px;
+    border-bottom: 2px solid #61dafb;
+    padding-bottom: 10px;
+}
+
+#gorev-alani {
+    font-size: 1.6em;
+    min-height: 80px;
+    margin: 35px 0;
+    padding: 20px;
+    border: 1px solid #4a515e;
+    border-radius: 10px;
+    background-color: #4a515e; /* Görev alanı rengi */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    color: #f5f5f5; /* Açık yazı */
+    transition: all 0.5s ease-in-out;
+}
+
+#gorev-butonu {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    color: #282c34;
+    background-color: #61dafb; /* Buton için canlı renk */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    font-weight: bold;
+}
+
+#gorev-butonu:hover {
+    background-color: #98e8f8;
+    transform: translateY(-2px);
+}
+
+/* GÖREV ALANI ANİMASYONU */
+
+/* Animasyonun kendisini tanımlıyoruz */
+@keyframes sallanma {
+    0% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Görev alanına eklenecek sınıf */
+.gorev-geldi {
+    animation: sallanma 0.5s ease-out;
