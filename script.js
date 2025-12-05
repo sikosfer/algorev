@@ -146,6 +146,3 @@ function rastgeleGorevSec() {
 
 // Butona tıklandığında rastgeleGorevSec fonksiyonunu çalıştır
 gorevButonu.addEventListener('click', rastgeleGorevSec);
-
-// Sayfa yüklendiğinde başlangıç görevi de göster
-rastgeleGorevSec();

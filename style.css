@@ -61,15 +61,34 @@ h1 {
     transform: translateY(-2px);
 }
 
-/* GÖREV ALANI ANİMASYONU */
+/* GÜÇLENDİRİLMİŞ (Sallanma + Flash) ANİMASYON */
 
-/* Animasyonun kendisini tanımlıyoruz */
-@keyframes sallanma {
-    0% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.05); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
+@keyframes combo-flash {
+    0% { 
+        transform: scale(0.9) rotate(0deg); /* Başlangıç: Hafif küçük */
+        opacity: 0; 
+        background-color: #4a515e; /* Varsayılan renk */
+    }
+    15% {
+        opacity: 1; 
+        background-color: #61dafb; /* FLASH: Canlı renge geç */
+    }
+    30% {
+        background-color: #4a515e; /* FLASH BİTİŞ: Eski renge dön */
+        transform: scale(1.05) rotate(2deg); /* SALLANMA 1: Hafif büyü ve sağa eğil */
+    }
+    45% {
+        transform: scale(1.05) rotate(-2deg); /* SALLANMA 2: Sola eğil */
+    }
+    60% {
+        transform: scale(1) rotate(1deg); /* SALLANMA 3: Sağa geri gel */
+    }
+    100% { 
+        transform: scale(1) rotate(0deg); /* Bitiş: Normal boyut ve düz */
+        opacity: 1; 
+    }
 }
 
 /* Görev alanına eklenecek sınıf */
 .gorev-geldi {
-    animation: sallanma 0.5s ease-out;
+    animation: combo-flash 0.6s ease-out; /* Animasyon süresini 0.6 saniyeye çıkardık */
