@@ -91,4 +91,5 @@ h1 {
 
 /* Görev alanına eklenecek sınıf */
 .gorev-geldi {
-    animation: combo-flash 0.6s ease-out; /* Animasyon süresini 0.6 saniyeye çıkardık */
+    animation: combo-flash 5s ease-out; /* Animasyon süresini 5 saniyeye çıkardık */
+
